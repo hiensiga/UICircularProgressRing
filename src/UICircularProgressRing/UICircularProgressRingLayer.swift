@@ -120,6 +120,9 @@ class UICircularProgressRingLayer: CAShapeLayer {
     @NSManaged var showFloatingPoint: Bool
     @NSManaged var decimalPlaces: Int
     @NSManaged var isClockwise: Bool
+    
+    @NSManaged var markPointOuterRingRadius: CGFloat
+    @NSManaged var markPointOuterRingColor: UIColor
 
     var animationDuration: TimeInterval = 1.0
     var animationTimingFunction: CAMediaTimingFunctionName = .easeInEaseOut
@@ -228,6 +231,28 @@ class UICircularProgressRingLayer: CAShapeLayer {
 
         outerRingColor.setStroke()
         outerPath.stroke()
+        
+        // draw mark points
+        if markPointOuterRingRadius > 1 {
+            drawMarkPoint(center: center, radius: outerRadius, endAngle: end)
+            drawMarkPoint(center: center, radius: outerRadius, endAngle: start)
+        }
+    }
+    
+    private func drawMarkPoint(center: CGPoint, radius: CGFloat, endAngle: CGFloat) {
+        
+        let x = center.x + radius * cos(endAngle)
+        let y = center.y + radius * sin(endAngle)
+        drawPoint(point: CGPoint(x: x, y: y))
+    }
+    
+    private func drawPoint(point: CGPoint) {
+        
+        let kRadius: CGFloat = markPointOuterRingRadius
+        let rect = CGRect(x: point.x - kRadius, y: point.y - kRadius, width: 2 * kRadius, height: 2 * kRadius)
+        let pPath = UIBezierPath(ovalIn: rect)
+        markPointOuterRingColor.setFill()
+        pPath.fill()
     }
 
     /**

@@ -869,6 +869,18 @@ fileprivate extension CALayer {
             ringLayer.isClockwise = isClockwise
         }
     }
+    
+    @IBInspectable open var markPointOuterRingRadius: CGFloat = 0.0 {
+        didSet {
+            ringLayer.markPointOuterRingRadius = markPointOuterRingRadius
+        }
+    }
+    
+    @IBInspectable open var markPointOuterRingColor: UIColor = UIColor.black.withAlphaComponent(0.8) {
+        didSet {
+            ringLayer.markPointOuterRingColor = markPointOuterRingColor
+        }
+    }
 
     /// This stores the animation when the timer is paused. We use this variable to continue the animation where it left off.
     /// See https://stackoverflow.com/questions/7568567/restoring-animation-where-it-left-off-when-app-resumes-from-background
@@ -999,6 +1011,9 @@ fileprivate extension CALayer {
         ringLayer.font = font
         ringLayer.showFloatingPoint = showFloatingPoint
         ringLayer.decimalPlaces = decimalPlaces
+        
+        ringLayer.markPointOuterRingRadius = markPointOuterRingRadius
+        ringLayer.markPointOuterRingColor = markPointOuterRingColor
 
         backgroundColor = UIColor.clear
         ringLayer.backgroundColor = UIColor.clear.cgColor
